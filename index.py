@@ -1,6 +1,7 @@
 import cv2
-import src.globals as g_coin
 import numpy as np
+import src.globals as g_coin
+import src.filters as filtro
 import matplotlib.pyplot as plt
 
 # Definições globais
@@ -12,7 +13,7 @@ import matplotlib.pyplot as plt
 # 8: Cores límpidas     # 9: Moedas do real
 path = './testes/'
 testes = g_coin.getImagens(path)
-bgr_img = cv2.imread(testes[9])
+bgr_img = cv2.imread(testes[5])
 
 # Coloração base em RGB (dict keys: cobre, niquel, bronze)
 color_rgb = g_coin.getColorsRGB()
@@ -68,5 +69,8 @@ median_blur = cv2.medianBlur(mascara, 9)
 simple_blur = cv2.blur(median_blur, (6,6))
 result = cv2.bitwise_and(rgb_img, rgb_img, mask=simple_blur)
 plt.imshow(result, cmap=plt.get_cmap("gray"))
+
+a = filtro.fmask_positivo(mascara,200)
+print(len(filtro.fmask_cluster(mascara)))
 
 plt.show()
